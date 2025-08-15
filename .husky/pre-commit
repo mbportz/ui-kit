@@ -1,0 +1,31 @@
+
+set -e
+
+# Ensure we run where package.json lives (adjust if monorepo)
+if [ ! -f package.json ] && [ -d ui-kit ]; then
+  cd ui-kit
+fi
+
+# Detect package manager
+if [ -f pnpm-lock.yaml ]; then PM=pnpm;
+elif [ -f yarn.lock ]; then PM=yarn;
+else PM=npm; fi
+
+run() {
+  echo "husky (pre-commit): $@"
+  if [ "$PM" = "pnpm" ]; then pnpm run -s "$@";
+  elif [ "$PM" = "yarn" ]; then yarn -s "$@";
+  else npm run -s "$@"; fi
+}
+
+# Prefer lint-staged if configured
+if grep -q "\"lint-staged\"" package.json >/dev/null 2>&1; then
+  npx --no-install lint-staged
+else
+  if grep -q '"lint"' package.json; then run lint; fi
+  if grep -q '"typecheck"' package.json; then run typecheck; fi
+  if grep -q '"test:run"' package.json; then run test:run; fi
+  if grep -q '"test:ui"' package.json; then run test:ui; fi
+  if grep -q '"test:e2e"' package.json; then run test:e2e; fi
+  if grep -q '"test:ci"' package.json; then run test:ci; fi
+fi
