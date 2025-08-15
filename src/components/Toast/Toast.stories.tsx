@@ -3,6 +3,7 @@ import ToastProvider, { useToast } from './Toast';
 
 const meta: Meta = {
   title: 'Components/Toast',
+  tags: ['autodocs'],
   parameters: { layout: 'centered' },
   decorators: [
     (Story) => (

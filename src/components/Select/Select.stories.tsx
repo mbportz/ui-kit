@@ -18,6 +18,7 @@ const meta: Meta<typeof Select> = {
     required: false,
     disabled: false,
   },
+  tags: ['autodocs'],
   parameters: { layout: 'centered' },
 };
 export default meta;

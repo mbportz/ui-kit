@@ -11,6 +11,7 @@ const meta: Meta<typeof Input> = {
     required: false,
     disabled: false,
   },
+  tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },

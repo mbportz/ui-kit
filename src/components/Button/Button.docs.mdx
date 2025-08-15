@@ -1,0 +1,60 @@
+import {
+  Meta,
+  Title,
+  Subtitle,
+  Description,
+  Primary,
+  Controls,
+  Stories,
+  Canvas,
+  Story,
+  ArgTypes,
+} from '@storybook/addon-docs/blocks';
+
+import * as ButtonStories from './Button.stories';
+
+/\*_ Attach this MDX page to the Button stories and name the sidebar entry "Guide". _/
+
+<Meta of={ButtonStories} name="Guide" />
+
+<Title />
+
+<Subtitle>Accessible, focus-visible button with variants & sizes</Subtitle>
+
+<Description>
+  Use a native <code>&lt;button&gt;</code> for built-in keyboard support
+  (Space/Enter). Icon-only buttons must provide an <code>aria-label</code>.
+  Disabled state uses the native <code>disabled</code> attribute.
+</Description>
+
+{/* Renders the primary story (the first one in Button.stories) */}
+
+<Primary />
+
+## Props (live)
+
+{/* Interactive args table wired to the primary story */}
+
+<Controls />
+
+## API (static ArgTypes)
+
+{/* Static ArgTypes table derived from the component meta */}
+
+<ArgTypes of={ButtonStories} />
+
+## Examples
+
+{/* Reference specific stories from your CSF file */}
+
+<Canvas of={ButtonStories.Primary} />
+<Canvas of={ButtonStories.Secondary} />
+<Canvas of={ButtonStories.Ghost} />
+<Canvas of={ButtonStories.Disabled} />
+<Canvas of={ButtonStories.Large} />
+
+## Accessibility checklist
+
+- Visible focus ring via <code>:focus-visible</code>
+- Accessible name from children or <code>aria-label</code>
+- Native <code>disabled</code> prevents focus & interaction
