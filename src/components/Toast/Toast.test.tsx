@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen, act } from '@testing-library/react';
-import user from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
-import '@testing-library/jest-dom';
 import ToastProvider, { useToast } from './Toast';
+import styles from './Toast.module.css';
 import { vi } from 'vitest';
 
 // Define the possible variant values as a type
@@ -34,11 +34,8 @@ function renderWithToast(ui: React.ReactElement) {
 }
 
 describe('Toast', () => {
-  beforeEach(() => {
-    vi.useFakeTimers();
-  });
-
   afterEach(() => {
+    vi.useRealTimers();
     vi.restoreAllMocks();
   });
 
@@ -61,6 +58,7 @@ describe('Toast', () => {
   });
 
   test('auto dismisses after duration', () => {
+    vi.useFakeTimers();
     renderWithToast(
       <TestToast
         options={{
@@ -77,10 +75,12 @@ describe('Toast', () => {
     });
 
     expect(screen.queryByText('Will dismiss')).not.toBeInTheDocument();
+    vi.useRealTimers();
   });
 
   test('can be manually dismissed', async () => {
     renderWithToast(<TestToast options={{ message: 'Dismiss me' }} />);
+    const user = userEvent.setup();
 
     const closeButton = screen.getByRole('button', {
       name: 'Dismiss notification',
@@ -101,7 +101,7 @@ describe('Toast', () => {
     );
 
     const toast = screen.getByRole('alert');
-    expect(toast).toHaveClass('error');
+    expect(toast).toHaveClass(styles.error);
   });
 
   test('uses correct ARIA roles', () => {
@@ -125,6 +125,21 @@ describe('Toast', () => {
       <TestToast options={{ message: 'Test message' }} />,
     );
     const results = await axe(container);
-    expect(results).toHaveNoViolations();
+    // Assert manually to avoid matcher incompatibilities between jest-axe and Vitest
+    if (results.violations.length > 0) {
+      // Print helpful details for debugging on failure
+      // (rule id, description, and the first node’s target)
+      // This makes the failure actionable without relying on custom matchers
+      console.error(
+        'A11y violations:',
+        results.violations.map((v) => ({
+          id: v.id,
+          impact: v.impact,
+          description: v.description,
+          nodes: v.nodes.slice(0, 1).map((n) => n.target),
+        })),
+      );
+    }
+    expect(results.violations).toEqual([]);
   });
 });

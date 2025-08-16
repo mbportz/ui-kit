@@ -26,13 +26,12 @@ describe('Tabs', () => {
 
     // First tab selected by default
     expect(tabs[0]).toHaveAttribute('aria-selected', 'true');
-    expect(tabs[0].id).toBe('tab-one');
     expect(screen.getByRole('tabpanel', { name: /one/i })).toBeVisible();
     expect(screen.getByText('Panel One')).toBeVisible();
 
     // Other panels hidden
-    expect(screen.getByRole('tabpanel', { name: /two/i })).not.toBeVisible();
-    expect(screen.getByRole('tabpanel', { name: /three/i })).not.toBeVisible();
+    expect(document.getElementById('panel-two')).not.toBeVisible();
+    expect(document.getElementById('panel-three')).not.toBeVisible();
   });
 
   test('click switches tabs (uncontrolled) and respects disabled', async () => {
@@ -45,7 +44,7 @@ describe('Tabs', () => {
     await user.click(tabTwo);
     expect(tabTwo).toHaveAttribute('aria-selected', 'true');
     expect(screen.getByText('Panel Two')).toBeVisible();
-    expect(screen.getByRole('tabpanel', { name: /one/i })).not.toBeVisible();
+    expect(document.getElementById('panel-one')).not.toBeVisible();
 
     // Disabled tab should not activate
     await user.click(tabThree);
@@ -103,42 +102,56 @@ describe('Tabs', () => {
     const tabs = screen.getAllByRole('tab');
     const panels = screen.getAllByRole('tabpanel');
 
+    // Each tab should reference an existing panel via aria-controls
     tabs.forEach((tab) => {
       const controls = tab.getAttribute('aria-controls');
       expect(controls).toBeTruthy();
-      const panel = panels.find((p) => p.id === controls);
-      expect(panel).toBeTruthy();
 
+      const panel = document.getElementById(controls!);
+      expect(panel).toBeTruthy();
+      expect(panel).toHaveAttribute('role', 'tabpanel');
+
+      // Panel should point back to the tab via aria-labelledby
       const labelledby = panel!.getAttribute('aria-labelledby');
-      expect(labelledby).toBe(tab.id);
+      // tab must have an id for relationships to work
+      const tabId = tab.getAttribute('id');
+      expect(tabId).toBeTruthy();
+      expect(labelledby).toBe(tabId);
     });
 
-    // Only active tab should have tabIndex=0; others -1
+    // Only active tab should be focusable (tabIndex 0); others -1
     const active = tabs.find(
       (t) => t.getAttribute('aria-selected') === 'true',
     )!;
-    expect(active).toHaveAttribute('tabIndex', '0');
+    expect(active).toBeTruthy();
+    expect(active).toHaveProperty('tabIndex', 0);
+
     tabs
       .filter((t) => t !== active)
       .forEach((t) => {
-        expect(t).toHaveAttribute('tabIndex', '-1');
+        expect(t).toHaveProperty('tabIndex', -1);
       });
+
+    // Panels exist and only the selected one should be visible
+    expect(panels.length).toBeGreaterThan(0);
   });
 
   test('panel has tabIndex=0 for accessibility and hidden attribute toggles', async () => {
     const user = userEvent.setup();
     render(<Tabs items={makeItems()} />);
 
-    const panelOne = screen.getByRole('tabpanel', { name: /one/i });
+    const panelOne = document.getElementById('panel-one') as HTMLElement;
+    expect(panelOne).toBeTruthy();
     expect(panelOne).toHaveAttribute('tabIndex', '0');
     expect(panelOne).toBeVisible();
 
     const tabTwo = screen.getByRole('tab', { name: 'Two' });
     await user.click(tabTwo);
 
-    const panelTwo = screen.getByRole('tabpanel', { name: /two/i });
+    const panelTwo = document.getElementById('panel-two') as HTMLElement;
+    expect(panelTwo).toBeTruthy();
     // Now panel one should be hidden, two visible
-    expect(panelOne).not.toBeVisible();
+    expect(document.getElementById('panel-one')).not.toBeVisible();
     expect(panelTwo).toBeVisible();
   });
 

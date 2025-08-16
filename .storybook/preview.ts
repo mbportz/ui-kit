@@ -13,7 +13,7 @@ const preview: Preview = {
     layout: 'centered',
 
     a11y: {
-      element: '#storybook-root',
+      context: '#root',
       options: {
         runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa'] },
       },

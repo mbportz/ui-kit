@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { axe } from 'jest-axe';
-import '@testing-library/jest-dom';
 import Input from './Input';
+import styles from './Input.module.css';
 import { vi } from 'vitest';
 
 test('renders with label', () => {
@@ -24,15 +24,23 @@ test('renders with error message', () => {
 
 test('shows required indicator', () => {
   render(<Input label="Name" required />);
-  const input = screen.getByLabelText('Name *');
+  // The accessible label for the input is just "Name"; the asterisk is aria-hidden
+  const input = screen.getByLabelText(/Name/i);
   expect(input).toBeRequired();
+
+  // Also assert the visual asterisk exists and is aria-hidden
+  const label = screen.getByText('Name').closest('label')!;
+  const star = label.querySelector('span');
+  expect(star).toBeTruthy();
+  expect(star).toHaveTextContent('*');
+  expect(star).toHaveAttribute('aria-hidden', 'true');
 });
 
 test('handles disabled state', () => {
   render(<Input label="Address" disabled />);
   const input = screen.getByLabelText('Address');
   expect(input).toBeDisabled();
-  expect(input).toHaveClass('disabled');
+  expect(input).toHaveClass(styles.disabled);
 });
 
 test('handles user input', async () => {
@@ -55,7 +63,19 @@ test('has proper aria attributes when error is present', () => {
 test('has no critical a11y violations', async () => {
   const { container } = render(<Input label="Test" />);
   const results = await axe(container);
-  expect(results).toHaveNoViolations();
+  // Manual assertion to avoid matcher incompatibilities with Vitest
+  if (results.violations.length > 0) {
+    console.error(
+      'A11y violations:',
+      results.violations.map((v) => ({
+        id: v.id,
+        impact: v.impact,
+        description: v.description,
+        nodes: v.nodes.slice(0, 1).map((n) => n.target),
+      })),
+    );
+  }
+  expect(results.violations).toEqual([]);
 });
 
 test('handles change events', async () => {

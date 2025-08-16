@@ -8,6 +8,15 @@ const meta: Meta<typeof Tabs> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    a11y: {
+      // Storybook 8.6+: use `context` instead of the removed `element`
+      context: '#storybook-root',
+      // Some projects still have a global `include` pointing to a non-existent node.
+      // Override it here so axe scans the correct element inside the canvas iframe.
+      options: {
+        include: [['#storybook-root']],
+      },
+    },
   },
 };
 export default meta;
