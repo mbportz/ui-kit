@@ -5,6 +5,7 @@ An accessible React UI Kit built with TypeScript and Storybook. Designed for rob
 ---
 
 ## Features
+
 - **Accessible Components**: All components include proper ARIA attributes and support for assistive technologies.
 - **Keyboard Support**: Full keyboard navigation and focus-visible styles.
 - **A11y Testing**: Integrated Storybook Accessibility panel (WCAG 2A/AA).
@@ -16,7 +17,9 @@ An accessible React UI Kit built with TypeScript and Storybook. Designed for rob
 ---
 
 ## Components
+
 The kit includes the following components:
+
 - **Button**
 - **Input**
 - **Select**
@@ -56,6 +59,7 @@ All components include focus-visible styles, keyboard support, and accessibility
 ---
 
 ## Scripts
+
 - `npm run dev` – app dev server
 - `npm run storybook` – component workshop
 - `npm run build-storybook` – build static docs (`./storybook-static`)
@@ -65,6 +69,7 @@ All components include focus-visible styles, keyboard support, and accessibility
 ---
 
 ## Conventions
+
 - **Commit style**: [Conventional Commits](https://www.conventionalcommits.org/)
 - **Pre-commit**: Lint, typecheck, and tests enforced via Husky
 - **A11y**: Run Storybook **Accessibility** panel (WCAG 2A/AA) to verify compliance

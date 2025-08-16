@@ -1,0 +1,12 @@
+# build + deps
+node_modules
+dist
+storybook-static
+
+# test runners & outputs
+coverage
+test-results
+**/.last-run.json
+
+# misc
+.DS_Store
