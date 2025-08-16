@@ -11,6 +11,7 @@ An accessible React UI Kit built with TypeScript and Storybook. Designed for rob
 - **Storybook Integration**: Interactive component workshop and documentation.
 - **TypeScript**: Strongly typed for safety and IDE support.
 - **Testing**: Vitest + React Testing Library for unit and integration tests.
+- **CI Integration**: Continuous Integration setup with linting, type-checking, and tests to ensure code quality and prevent regressions.
 
 ---
 
