@@ -12,7 +12,6 @@ describe('Modal Component', () => {
   };
 
   beforeEach(() => {
-    // Reset mocks
     vi.clearAllMocks();
   });
 
@@ -75,21 +74,17 @@ describe('Modal Component', () => {
 
     const user = userEvent.setup();
 
-    // Start by focusing the first focusable element explicitly (jsdom doesn’t auto-focus)
     const first = screen.getByText('First');
     first.focus();
     expect(first).toHaveFocus();
 
-    // Tab should move to the next focusable (Last)
     await user.tab();
     const last = screen.getByText('Last');
     expect(last).toHaveFocus();
 
-    // Shift+Tab should move back to the first button in content
     await user.tab({ shift: true });
     expect(first).toHaveFocus();
 
-    // Tab moves forward to Last again
     await user.tab();
     expect(last).toHaveFocus();
   });
@@ -125,7 +120,6 @@ describe('Modal Component', () => {
     );
 
     const results = await axe(container);
-    // Manual assertion to avoid matcher incompatibilities with Vitest
     if (results.violations.length > 0) {
       console.error(
         'A11y violations:',

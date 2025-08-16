@@ -2,19 +2,12 @@ import { useEffect, useCallback, useRef } from 'react';
 import styles from './Modal.module.css';
 
 type ModalProps = {
-  /** Controls modal visibility */
   isOpen: boolean;
-  /** Callback when modal should close */
   onClose: () => void;
-  /** Modal title */
   title: string;
-  /** Modal content */
   children: React.ReactNode;
-  /** Optional custom width (default: '600px') */
   width?: string;
-  /** Optional CSS class name */
   className?: string;
-  /** Optional test ID */
   'data-testid'?: string;
 };
 
@@ -44,12 +37,10 @@ export default function Modal({
   useEffect(() => {
     if (!isOpen) return;
 
-    // Store previous focus and handle keyboard
     previousFocusRef.current = document.activeElement as HTMLElement;
     document.addEventListener('keydown', handleEscape);
     document.body.style.overflow = 'hidden';
 
-    // Focus first interactive element
     const focusable = modalRef.current?.querySelector<HTMLElement>(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
     );

@@ -22,7 +22,6 @@ test('has no critical a11y violations', async () => {
   const results = await axe(container);
   // Assert manually to avoid matcher incompatibilities in Vitest
   if (results.violations.length > 0) {
-    // Helpful debug output
     console.error(
       'A11y violations:',
       results.violations.map((v) => ({

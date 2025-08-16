@@ -24,12 +24,10 @@ describe('Tabs', () => {
     const tabs = screen.getAllByRole('tab');
     expect(tabs).toHaveLength(3);
 
-    // First tab selected by default
     expect(tabs[0]).toHaveAttribute('aria-selected', 'true');
     expect(screen.getByRole('tabpanel', { name: /one/i })).toBeVisible();
     expect(screen.getByText('Panel One')).toBeVisible();
 
-    // Other panels hidden
     expect(document.getElementById('panel-two')).not.toBeVisible();
     expect(document.getElementById('panel-three')).not.toBeVisible();
   });
@@ -46,7 +44,6 @@ describe('Tabs', () => {
     expect(screen.getByText('Panel Two')).toBeVisible();
     expect(document.getElementById('panel-one')).not.toBeVisible();
 
-    // Disabled tab should not activate
     await user.click(tabThree);
     expect(tabThree).toBeDisabled();
     expect(tabTwo).toHaveAttribute('aria-selected', 'true'); // still on Two
@@ -58,13 +55,11 @@ describe('Tabs', () => {
 
     const [tabOne, tabTwo] = screen.getAllByRole('tab');
 
-    // Focus the active tab and navigate right
     tabOne.focus();
     await user.keyboard('{ArrowRight}');
     expect(tabTwo).toHaveAttribute('aria-selected', 'true');
     expect(screen.getByText('Panel Two')).toBeVisible();
 
-    // Navigate left (wraps back)
     await user.keyboard('{ArrowLeft}');
     expect(tabOne).toHaveAttribute('aria-selected', 'true');
     expect(screen.getByText('Panel One')).toBeVisible();
@@ -79,19 +74,15 @@ describe('Tabs', () => {
       <Tabs items={items} activeId="two" onChange={onChange} />,
     );
 
-    // activeId controls selection
     const tabTwo = screen.getByRole('tab', { name: 'Two' });
     expect(tabTwo).toHaveAttribute('aria-selected', 'true');
     expect(screen.getByText('Panel Two')).toBeVisible();
 
-    // Clicking a different tab should call onChange but NOT switch until parent updates
     const tabOne = screen.getByRole('tab', { name: 'One' });
     await user.click(tabOne);
     expect(onChange).toHaveBeenCalledWith('one');
-    // still on "two" because parent hasn't changed activeId yet
     expect(tabTwo).toHaveAttribute('aria-selected', 'true');
 
-    // Simulate parent updating activeId
     rerender(<Tabs items={items} activeId="one" onChange={onChange} />);
     expect(tabOne).toHaveAttribute('aria-selected', 'true');
     expect(screen.getByText('Panel One')).toBeVisible();
@@ -102,7 +93,6 @@ describe('Tabs', () => {
     const tabs = screen.getAllByRole('tab');
     const panels = screen.getAllByRole('tabpanel');
 
-    // Each tab should reference an existing panel via aria-controls
     tabs.forEach((tab) => {
       const controls = tab.getAttribute('aria-controls');
       expect(controls).toBeTruthy();
@@ -111,15 +101,12 @@ describe('Tabs', () => {
       expect(panel).toBeTruthy();
       expect(panel).toHaveAttribute('role', 'tabpanel');
 
-      // Panel should point back to the tab via aria-labelledby
       const labelledby = panel!.getAttribute('aria-labelledby');
-      // tab must have an id for relationships to work
       const tabId = tab.getAttribute('id');
       expect(tabId).toBeTruthy();
       expect(labelledby).toBe(tabId);
     });
 
-    // Only active tab should be focusable (tabIndex 0); others -1
     const active = tabs.find(
       (t) => t.getAttribute('aria-selected') === 'true',
     )!;
@@ -132,7 +119,6 @@ describe('Tabs', () => {
         expect(t).toHaveProperty('tabIndex', -1);
       });
 
-    // Panels exist and only the selected one should be visible
     expect(panels.length).toBeGreaterThan(0);
   });
 
@@ -150,7 +136,6 @@ describe('Tabs', () => {
 
     const panelTwo = document.getElementById('panel-two') as HTMLElement;
     expect(panelTwo).toBeTruthy();
-    // Now panel one should be hidden, two visible
     expect(document.getElementById('panel-one')).not.toBeVisible();
     expect(panelTwo).toBeVisible();
   });

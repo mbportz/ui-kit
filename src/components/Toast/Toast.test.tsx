@@ -6,7 +6,6 @@ import ToastProvider, { useToast } from './Toast';
 import styles from './Toast.module.css';
 import { vi } from 'vitest';
 
-// Define the possible variant values as a type
 type ToastVariant = 'success' | 'error' | 'info' | 'warning';
 
 type ToastOptions = {
@@ -125,11 +124,7 @@ describe('Toast', () => {
       <TestToast options={{ message: 'Test message' }} />,
     );
     const results = await axe(container);
-    // Assert manually to avoid matcher incompatibilities between jest-axe and Vitest
     if (results.violations.length > 0) {
-      // Print helpful details for debugging on failure
-      // (rule id, description, and the first node’s target)
-      // This makes the failure actionable without relying on custom matchers
       console.error(
         'A11y violations:',
         results.violations.map((v) => ({

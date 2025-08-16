@@ -66,14 +66,12 @@ export default function Tabs({
     btn?.focus();
   };
 
-  // Sync internal state with controlled prop — hooks must run before any early return
   useEffect(() => {
     if (activeId !== undefined) {
       setSelectedId(activeId);
     }
   }, [activeId]);
 
-  // Guard AFTER hooks so hook order is stable
   if (!items || items.length === 0) {
     return null;
   }

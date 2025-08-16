@@ -36,7 +36,6 @@ test('selects option on click', async () => {
   const select = screen.getByRole('combobox') as HTMLSelectElement;
   await user.selectOptions(select, '2');
 
-  // Native <select> in jsdom: ensure handler fired and value updated
   expect(handleChange).toHaveBeenCalledTimes(1);
   expect(select.value).toBe('2');
   expect(select).toHaveDisplayValue('Option 2');
@@ -63,8 +62,6 @@ test('supports keyboard navigation', async () => {
   const select = screen.getByRole('combobox') as HTMLSelectElement;
   const user = userEvent.setup();
 
-  // In jsdom, native <select> doesn’t reliably change with Arrow keys.
-  // Use Testing Library’s helper to emulate selection instead.
   await user.selectOptions(select, '1');
 
   expect(select.value).toBe('1');
@@ -82,7 +79,6 @@ test('closes dropdown on escape key', async () => {
   expect(select).toHaveFocus();
 
   await user.keyboard('{Escape}');
-  // For native selects in jsdom there is no popup/listbox; just ensure focus remains and no crash
   expect(select).toHaveFocus();
 });
 
@@ -91,7 +87,6 @@ test('has no critical a11y violations', async () => {
     <Select label="Choose option" options={options} />,
   );
   const results = await axe(container);
-  // Manual assertion to avoid matcher incompatibilities with Vitest
   if (results.violations.length > 0) {
     console.error(
       'A11y violations:',

@@ -1,10 +1,10 @@
 :root {
-  --ring: #7c3aed; /* focus ring */
-  --border: #d1d5db; /* gray-300 */
-  --border-hover: #9ca3af; /* gray-400 */
-  --text: #111827; /* gray-900 */
-  --muted: #6b7280; /* gray-500 */
-  --error: #dc2626; /* red-600 */
+  --ring: #7c3aed;
+  --border: #d1d5db;
+  --border-hover: #9ca3af;
+  --text: #111827;
+  --muted: #6b7280;
+  --error: #dc2626;
   --bg: #ffffff;
 }
 
@@ -48,7 +48,7 @@
 }
 .disabled,
 .input:disabled {
-  background: #f3f4f6; /* gray-100 */
+  background: #f3f4f6;
   cursor: not-allowed;
 }
 

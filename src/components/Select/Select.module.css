@@ -33,7 +33,7 @@
   transition:
     box-shadow 0.15s ease,
     border-color 0.15s ease;
-  appearance: none; /* keeps styling consistent */
+  appearance: none;
   background-image:
     linear-gradient(45deg, transparent 50%, currentColor 50%),
     linear-gradient(135deg, currentColor 50%, transparent 50%);
@@ -42,9 +42,9 @@
     calc(100% - 1rem) calc(50% + 0.2rem);
   background-size:
     6px 6px,
-    6px 6px; /* chevron */
+    6px 6px;
   background-repeat: no-repeat;
-  padding-right: 2rem; /* room for chevron */
+  padding-right: 2rem;
 }
 .select:hover {
   border-color: var(--border-hover);

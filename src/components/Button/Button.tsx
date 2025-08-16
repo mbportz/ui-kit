@@ -14,7 +14,6 @@ export default function Button({
   children,
   ...rest
 }: ButtonProps) {
-  // NOTE: native <button> already supports Enter/Space by default (good!)
   const className = [
     styles.btn,
     styles[variant],

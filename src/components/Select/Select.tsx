@@ -11,7 +11,7 @@ type SelectProps = Omit<
   options: Option[];
   hint?: string;
   error?: string;
-  placeholder?: string; // shows as first disabled option
+  placeholder?: string;
 };
 
 export default function Select({

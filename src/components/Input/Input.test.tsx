@@ -24,7 +24,6 @@ test('renders with error message', () => {
 
 test('shows required indicator', () => {
   render(<Input label="Name" required />);
-  // The accessible label for the input is just "Name"; the asterisk is aria-hidden
   const input = screen.getByLabelText(/Name/i);
   expect(input).toBeRequired();
 
@@ -63,7 +62,6 @@ test('has proper aria attributes when error is present', () => {
 test('has no critical a11y violations', async () => {
   const { container } = render(<Input label="Test" />);
   const results = await axe(container);
-  // Manual assertion to avoid matcher incompatibilities with Vitest
   if (results.violations.length > 0) {
     console.error(
       'A11y violations:',

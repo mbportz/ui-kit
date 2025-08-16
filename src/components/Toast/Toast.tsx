@@ -15,14 +15,14 @@ type ToastItem = {
   id: number;
   title?: string;
   description?: string;
-  message?: string; // Add message prop
+  message?: string;
   variant: Variant;
-  duration?: number; // ms; 0 = stay until closed
+  duration?: number;
 };
 
 type ToastOptions = Omit<ToastItem, 'id' | 'variant'> & {
   variant?: Variant;
-  message?: string; // Add to options
+  message?: string;
 };
 
 type Ctx = {
@@ -84,11 +84,7 @@ export default function ToastProvider({
     <ToastContext.Provider value={value}>
       {children}
       {createPortal(
-        <div
-          className={styles.region}
-          aria-live="polite" /* announce new toasts */
-          aria-atomic="false"
-        >
+        <div className={styles.region} aria-live="polite" aria-atomic="false">
           {toasts.map((t) => (
             <ToastCard key={t.id} item={t} onClose={() => dismiss(t.id)} />
           ))}
@@ -117,8 +113,8 @@ function ToastCard({
       role={role}
       aria-labelledby={item.title ? `t-${labelId}` : undefined}
       aria-describedby={buildDescribedBy(item, descId, messageId)}
-      onMouseEnter={onClose /* pause by canceling timer when hovered */}
-      onFocus={onClose /* also cancel timer if focused */}
+      onMouseEnter={onClose}
+      onFocus={onClose}
     >
       <div className={styles.body}>
         {item.title && (
@@ -149,7 +145,6 @@ function ToastCard({
   );
 }
 
-// Helper function to build aria-describedby string
 function buildDescribedBy(
   item: ToastItem,
   descId: string,
