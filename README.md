@@ -1,69 +1,69 @@
-# React + TypeScript + Vite
+# Accessible UI Kit (React + TS + Storybook)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An accessible React UI Kit built with TypeScript and Storybook. Designed for robust accessibility, developer experience, and easy integration.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+- **Accessible Components**: All components include proper ARIA attributes and support for assistive technologies.
+- **Keyboard Support**: Full keyboard navigation and focus-visible styles.
+- **A11y Testing**: Integrated Storybook Accessibility panel (WCAG 2A/AA).
+- **Storybook Integration**: Interactive component workshop and documentation.
+- **TypeScript**: Strongly typed for safety and IDE support.
+- **Testing**: Vitest + React Testing Library for unit and integration tests.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Components
+The kit includes the following components:
+- **Button**
+- **Input**
+- **Select**
+- **Modal**
+- **Tabs**
+- **Toast**
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+All components include focus-visible styles, keyboard support, and accessibility attributes by default.
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Getting Started
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1. **Install dependencies**
+   ```sh
+   npm install
+   ```
+2. **Run Storybook (component workshop)**
+   ```sh
+   npm run storybook
+   ```
+3. **Run the app dev server**
+   ```sh
+   npm run dev
+   ```
+4. **Run tests**
+   ```sh
+   npm run test
+   ```
+5. **Build Storybook static docs**
+   ```sh
+   npm run build-storybook
+   ```
+6. **Use components**
+   - Import and use components from the kit in your React application as needed.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Scripts
+- `npm run dev` – app dev server
+- `npm run storybook` – component workshop
+- `npm run build-storybook` – build static docs (`./storybook-static`)
+- `npm run test` / `npm run test:run` – run tests (Vitest + RTL)
+- `npm run lint` / `npm run typecheck` – code quality checks
+
+---
+
+## Conventions
+- **Commit style**: [Conventional Commits](https://www.conventionalcommits.org/)
+- **Pre-commit**: Lint, typecheck, and tests enforced via Husky
+- **A11y**: Run Storybook **Accessibility** panel (WCAG 2A/AA) to verify compliance
