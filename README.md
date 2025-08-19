@@ -1,6 +1,6 @@
 # Accessible UI Kit (React + TS + Storybook)
 
-![CI](https://github.com/mbportz/projects/actions/workflows/ci.yml/badge.svg)
+[![CI](https://github.com/mbportz/ui-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/mbportz/ui-kit/actions/workflows/ci.yml)
 
 An accessible React UI Kit built with TypeScript and Storybook. Designed for robust accessibility, developer experience, and easy integration.
 
